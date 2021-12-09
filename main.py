@@ -25,7 +25,7 @@ print(f"{cwd}\n-----")
 with open("./bot_files/settings/settings.json", 'r') as configFile: # Points to the settings.json file and calls it configFile in the code.
     data = json.load(configFile)
     token = data.get("token") # Token Data
-    owner = data.get("owner") # owner data
+    owner = data.get("owner") # Owner Data
 
 with open("./bot_files/configs/status.json", 'r') as statusFile: # I decided to opt for the status data in the JSON for more ease of use. 
     data = json.load(statusFile)
@@ -67,8 +67,8 @@ async def presence():
 # idle
 # dnd
 # invisible
-# streaming
 # do_not_disturb - alias for dnd
+#
 
 ############### Command Handler ##################
 
