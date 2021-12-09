@@ -1,4 +1,3 @@
-import asyncio  # Used for loop tasks
 import json  # Used for json databases and data storing
 import os  # Reads majority of files
 
