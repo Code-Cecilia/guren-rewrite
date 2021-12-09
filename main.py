@@ -18,9 +18,6 @@ intents.members = True
 intents.voice_states = True
 ############################
 
-cwd = Path(__file__).parents[0]
-cwd = str(cwd)
-print(f"{cwd}\n-----")
 
 with open("./bot_files/settings/settings.json", 'r') as configFile: # Points to the settings.json file and calls it configFile in the code.
     data = json.load(configFile)
@@ -41,7 +38,6 @@ bot = commands.AutoShardedBot(
 
 bot.token = token
 bot.version = "0.1"
-bot.cwd = cwd
 
 @bot.event # Login event.
 async def on_ready():
@@ -59,7 +55,6 @@ async def presence():
         # game = discord.Game(statuses)
         await bot.change_presence(status=discord.Status.dnd, activity=discord.Streaming(name="i don\'t know", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
 
-
 # Status that can be set:
 #
 # online
@@ -72,10 +67,9 @@ async def presence():
 
 ############### Command Handler ##################
 
-if __name__ == "__main__":
-    for file in os.listdir(cwd + "/cogs"):
-        if file.endswith(".py") and not file.startswith("_"):
-            bot.load_extension(f"cogs.{file[:-3]}")
+for filename in os.listdir("./cogs"):
+    if filename.endswith(".py") and filename != "__init__.py":
+        bot.load_extension(f'cogs.{filename[:-3]}')
 
 ###################################################
 
