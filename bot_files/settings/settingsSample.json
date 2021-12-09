@@ -1,4 +1,4 @@
 {
     "token": "Grab your bot token from discord developers.",
-    "owner": "Put the owner id here."
+    "owner": "Put the owner id here without the colons."
 }
