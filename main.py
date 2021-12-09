@@ -72,6 +72,8 @@ async def presence():
 # streaming
 # do_not_disturb - alias for dnd
 
+############### Command Handler ##################
+
 if __name__ == "__main__":
     for file in os.listdir(cwd + "/cogs"):
         if file.endswith(".py") and not file.startswith("_"):
