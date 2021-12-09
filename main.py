@@ -56,10 +56,9 @@ async def on_ready():
 async def presence():
     await bot.wait_until_ready()
     while not bot.is_closed():
-        game = discord.Game(statuses)
-
-        await bot.change_presence(status=discord.Status.dnd, activity=game)
-        await asyncio.sleep(30)
+        # if you wish to change the status to one in the config please uncomment the line below and change discord.Streaming to game.
+        # game = discord.Game(statuses)
+        await bot.change_presence(status=discord.Status.dnd, activity=discord.Streaming(name="i don\'t know", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
 
 
 # Status that can be set:
