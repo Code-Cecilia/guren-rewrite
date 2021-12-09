@@ -32,7 +32,7 @@ with open("./bot_files/configs/status.json", 'r') as statusFile: # I decided to 
     statuses = data.get("statuses")
 
 # I call my bot instance as bot, which means i will have to use bot everytime i want to mention it or create a command, etc. Thats its name.
-bot = commands.Bot(
+bot = commands.AutoShardedBot(
     command_prefix='$', # Temporary prefix
     owner_id=owner, # Grabs the owner id from the settings.json
     case_insensitive=True, # Allows upper case and lower case letters in commands, easier for mobile users with some keyboards.
