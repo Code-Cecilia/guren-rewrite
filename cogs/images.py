@@ -6,7 +6,7 @@ import asyncpraw
 import random
 import datetime
 
-with open("./bot_files/configs/settings.json", "r") as redditConfig:
+with open("./bot_files/settings/settings.json", "r") as redditConfig:
     data = json.load(redditConfig)
     client_id = data.get("r_client_id")
     client_secret = data.get("r_client_secret")
@@ -36,8 +36,8 @@ class Images(commands.Cog):
     async def meme(self, ctx):
         """Sends a random meme"""
 
-        memes_submissions = await reddit.subreddit('memes')
-        post_to_pick = random.randint(1, 50)
+        memes_submissions = await reddit.subreddit('memes') # Searches the memes subreddit, you can use whatever subreddit you want here
+        post_to_pick = random.randint(1, 50) # Picks one from 50
         for i in range(0, post_to_pick):
             submission = next(x for x in memes_submissions if not x.stickied)
 
@@ -50,13 +50,22 @@ class Images(commands.Cog):
 
     @commands.command()
     async def cat(self, ctx):
-        response = requests.get('https://aws.random.cat/meow')
+        response = requests.get('https://aws.random.cat/meow') # Cats API
         data = response.json()
 
         embed = discord.Embed(title = 'Here\'s a meow for you!~')
         embed.set_image(url=data['file'])            
 
-        await ctx.send(embed=embed)            
+        await ctx.send(embed=embed)    
+
+    @commands.command()
+    async def dog(self, ctx):
+        response = requests.get('https://dog.ceo/api/breeds/image/random')
+        data = response.json()
+        embed = discord.Embed(title='Here\'s a dog for you!')
+        embed.set_image(url=data["message"]) 
+
+        await ctx.send(embed=embed)     
 
 def setup(bot):
     bot.add_cog(Images(bot))
