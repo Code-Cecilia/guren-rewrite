@@ -1,24 +1,9 @@
-import discord
-from discord.ext import commands
-import json
-import requests
-import asyncpraw
-import random
 import datetime
+import json
 
-with open("./bot_files/settings/settings.json", "r") as redditConfig:
-    data = json.load(redditConfig)
-    client_id = data.get("r_client_id")
-    client_secret = data.get("r_client_secret")
-    redirect_uri = data.get("r_redirect_uri")
-    user_agent = data.get("r_user_agent")
-    username = data.get("r_username")
-
-reddit = asyncpraw.Reddit(client_id=client_id,
-                     client_secret=client_secret,
-                     redirect_uri=redirect_uri, # This is usually default.
-                     user_agent=user_agent,
-                     username=username)
+import discord
+import requests
+from discord.ext import commands
 
 
 class Images(commands.Cog):
@@ -35,20 +20,17 @@ class Images(commands.Cog):
     )
     async def meme(self, ctx):
         """Sends a random meme"""
-
-        memes_submissions = await reddit.subreddit('memes') # Searches the memes subreddit, you can use whatever subreddit you want here
-        post_to_pick = random.randint(1, 50) # Picks one from 50
-        for i in range(0, post_to_pick):
-            submission = next(x for x in memes_submissions if not x.stickied)
-
-        embed = discord.Embed(timestamp=datetime.datetime.utcnow())
+        result_dict = self.bot.reddit.get_post_data("memes")
+        embed = discord.Embed(title=result_dict["title"], color=discord.Colour.random())
         embed.set_footer(
-            text=f"Requested by {ctx.author}", icon_url=ctx.author.avatar_url)
-        embed.set_image(url=f"{submission.url}")
-
+            text=f"Author: {result_dict['author']} | {result_dict['like_ratio']}% Upvoted")
+        embed.set_image(url=result_dict['url'])
         await ctx.send(embed=embed)
 
-    @commands.command()
+    @commands.command(
+        name="cat",
+        description="Retrieves a random cat image from the API."
+    )
     async def cat(self, ctx):
         response = requests.get('https://aws.random.cat/meow') # Cats API
         data = response.json()
@@ -58,7 +40,10 @@ class Images(commands.Cog):
 
         await ctx.send(embed=embed)    
 
-    @commands.command()
+    @commands.command(
+        name="dog",
+        description="Retrieves a random dog image from the API."
+    )
     async def dog(self, ctx):
         response = requests.get('https://dog.ceo/api/breeds/image/random')
         data = response.json()
