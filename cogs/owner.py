@@ -1,12 +1,13 @@
-import discord
-from discord.ext import commands
-import sys
 import asyncio
 import os
+import sys
+
+import discord
 import psutil
 import speedtest
-
+from discord.ext import commands
 from discord.shard import ShardInfo
+
 
 class Owner(commands.Cog):
     def __init__(self, bot):
@@ -19,7 +20,11 @@ class Owner(commands.Cog):
     # Credits to CorpNewt for finding a fix for asyncio being broken on python 3.9 and for this block of code.
 
     @commands.is_owner()
-    @commands.command()
+    @commands.command(
+        name="reboot",
+        aliases=['restart'],
+        description="Reboots the bot instance. Useful for when running in a script that loops the task of running the main file."
+    )
     async def reboot(self, ctx):
         await ctx.send("Rebooting!")
         try:
@@ -42,7 +47,11 @@ class Owner(commands.Cog):
         os._exit(3)
 
     @commands.is_owner()
-    @commands.command()
+    @commands.command(
+        name="hostinfo",
+        aliases=['hi', 'sysinfo'],
+        description="Shows the information of the system where i am currently hosted."
+    )
     async def hostinfo(self, ctx):
         embed = discord.Embed(title='System Resource Usage', description='See CPU and memory usage of the system.')
         embed.add_field(name='CPU Usage', value=f'{psutil.cpu_percent()}%', inline=False) # Fetches the CPU usage
@@ -51,7 +60,11 @@ class Owner(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.is_owner()
-    @commands.command()
+    @commands.command(
+        name="speedtest",
+        aliases=['st'],
+        description="Runs a speed test to the best possible server."
+    )
     async def speedtest(self, ctx):
         st = speedtest.Speedtest()
         st.get_best_server()
@@ -73,23 +86,11 @@ class Owner(commands.Cog):
         
         await ctx.send(embed=embed)
 
-#    @commands.command()
-#    @commands.is_owner()
-#    async def unload(self, ctx, cog: str):
-#        async with ctx.typing():
-#            embed = discord.Embed(color=0x808080)
-#        for ext in os.listdir("./cogs/"):
-#            if ext.endswith(".py") and not ext.startswith("_"):
-#                try:
-#                    self.bot.unload_extension(f"cogs.{ext[:-3]}")
-#                    embed.add_field(name=f"Unloaded: `{ext}`", value='\uFEFF')
-#                except Exception as e:
-#                    embed.add_field(name=f"Failed to unload: `{ext}`", value=e)
-#                await asyncio.sleep(0.5)
-#            await ctx.send(embed=embed)
-
-    @commands.command()
     @commands.is_owner()
+    @commands.command(
+        name="unload",
+        description="Unloads a specific cog."
+    )
     async def unload(self, ctx, cog: str):
         async with ctx.typing():
             try:
@@ -100,8 +101,11 @@ class Owner(commands.Cog):
             await asyncio.sleep(0.5)
             await ctx.send(f"{cog} unloaded.")
 
-    @commands.command()
     @commands.is_owner()
+    @commands.command(
+        name="load",
+        description="Loads a specific cog. It must be unloaded to be loaded."
+    )
     async def load(self, ctx, cog: str):
         async with ctx.typing():
             try:
@@ -112,8 +116,11 @@ class Owner(commands.Cog):
             await asyncio.sleep(0.5)
             await ctx.send(f"{cog} loaded.")
 
-    @commands.command()
     @commands.is_owner()
+    @commands.command(
+        name="reload",
+        description="Reloads a specific cog."
+    )
     async def reload(self, ctx, cog: str):
         async with ctx.typing():
             try:
