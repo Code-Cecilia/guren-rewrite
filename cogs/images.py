@@ -52,6 +52,7 @@ class Images(commands.Cog):
 
     @commands.command()
     async def fox(self, ctx):
+        """ ela fica aqui """
         response = requests.get('https://randomfox.ca/floof/')
         data = json.loads(response.text)
         embed = discord.Embed(title="Here's a fox for you!~", color=discord.Colour.random())# , description=f"{data['image']}")
