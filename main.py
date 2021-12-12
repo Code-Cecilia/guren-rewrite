@@ -36,9 +36,22 @@ with open("./bot_files/configs/status.json", 'r') as statusFile: # I decided to 
     data = json.load(statusFile)
     statuses = data.get("statuses")
 
+def get_prefix(bot, message):
+    with open('./bot_files/servers/prefixes/prefixes.json', 'r') as prefixFile:
+        prefixes = json.load(prefixFile)
+        try:
+            prefix_server = prefixes.get(str(message.guild.id))
+        except AttributeError:
+            return 'g$'
+
+        if prefix_server is None:
+            prefix_server = "g$" 
+        data = prefix_server
+        return commands.when_mentioned_or(data)(bot, message)
+
 # I call my bot instance as bot, which means i will have to use bot everytime i want to mention it or create a command, etc. Thats its name.
 bot = commands.AutoShardedBot(
-    command_prefix='$', # Temporary prefix
+    command_prefix=get_prefix, # Temporary prefix
     owner_id=owner, # Grabs the owner id from the settings.json
     case_insensitive=True, # Allows upper case and lower case letters in commands, easier for mobile users with some keyboards.
     intents=intents # Needs the flags enabled in order to work properly. These were discord API changes and later i will have to request message intent.
@@ -69,9 +82,11 @@ async def on_ready():
 async def presence():
     await bot.wait_until_ready()
     while not bot.is_closed():
+        name="ur mom"
+        url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
         # if you wish to change the status to one in the config please uncomment the line below and change discord.Streaming to game.
         # game = discord.Game(statuses)
-        await bot.change_presence(status=discord.Status.dnd, activity=discord.Streaming(name="i don\'t know", url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"))
+        await bot.change_presence(status=discord.Status.dnd, activity=discord.Streaming(name=name, url=url))
 
 # Status that can be set:
 #
@@ -91,7 +106,6 @@ for filename in os.listdir("./cogs"):
 
 ###################################################
 
-bot.loop.create_task(presence())
 bot.run(bot.token) 
 
 # Will only work if they are not inside the cogs loading loop - reminder`
