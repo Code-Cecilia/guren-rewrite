@@ -21,7 +21,7 @@ class Images(commands.Cog):
         result_dict = self.bot.reddit.get_post_data("memes")
         embed = discord.Embed(title=result_dict["title"], color=discord.Colour.random())
         embed.set_footer(
-            text=f"Author: {result_dict['author']} | {result_dict['like_ratio']}% Upvoted")
+            text=f"Author: u/{result_dict['author']} | {int(result_dict['like_ratio']*100)}% Upvoted")
         embed.set_image(url=result_dict['url'])
         await ctx.send(embed=embed)
 

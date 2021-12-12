@@ -38,6 +38,6 @@ class reddit_login:
             "author": choice.author,
             "url": choice.url,
             "subreddit": subreddit.name,
-            "like_ratio": choice.like_ratio,
+            "like_ratio": choice.upvote_ratio,
             "title": choice.title
         }
