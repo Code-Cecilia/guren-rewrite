@@ -58,7 +58,7 @@ class Misc(commands.Cog):
     async def invite(self, ctx):
         # await ctx.send(f"Invite me to your server using this link: https://discord.com/oauth2/authorize?client_id={self.bot.user.id}&scope=bot&permissions=8")
         embed = discord.Embed(color=discord.Colour.random())
-        embed.add_field(name=f"Instance hosted by Yuichiro#0001", value=f"**Invite me to your server using this [link](https://discord.com/oauth2/authorize?client_id={self.bot.user.id}&scope=bot&permissions=8)**")
+        embed.add_field(name=f"Instance hosted by {self.bot.owner_name}", value=f"**Invite me to your server using this [link](https://discord.com/oauth2/authorize?client_id={self.bot.user.id}&scope=bot&permissions=8)**")
         await ctx.send(embed=embed)
 
     @commands.command()

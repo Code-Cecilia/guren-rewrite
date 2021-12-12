@@ -30,6 +30,7 @@ with open("./bot_files/settings/settings.json", 'r') as configFile: # Points to 
     user_agent = data.get("r_user_agent")
     username = data.get("r_username")
     random_api_key = data.get("random_api_key")
+    owner_name = data.get("owner_name")
 
 with open("./bot_files/configs/status.json", 'r') as statusFile: # I decided to opt for the status data in the JSON for more ease of use. 
     data = json.load(statusFile)
@@ -54,6 +55,7 @@ bot.reddit = Reddit.reddit_login(
 )
 
 bot.api = random_api_key
+bot.owner_name = owner_name
 
 @bot.event # Login event.
 async def on_ready():
