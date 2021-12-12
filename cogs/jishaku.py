@@ -1,3 +1,5 @@
+# This is the jishaku cog.
+
 from discord.ext import commands
 
 from jishaku.features.python import PythonFeature

@@ -1,11 +1,9 @@
 import json  # Used for json databases and data storing
 import os  # Reads majority of files
-import logging
 
 from pathlib import Path
 import discord  # Using Pycord
 from discord.ext import commands
-from discord.ext.commands.context import Context
 
 from utils import Reddit
 
@@ -31,6 +29,7 @@ with open("./bot_files/settings/settings.json", 'r') as configFile: # Points to 
     redirect_uri = data.get("r_redirect_uri")
     user_agent = data.get("r_user_agent")
     username = data.get("r_username")
+    random_api_key = data.get("random_api_key")
 
 with open("./bot_files/configs/status.json", 'r') as statusFile: # I decided to opt for the status data in the JSON for more ease of use. 
     data = json.load(statusFile)
@@ -44,7 +43,6 @@ bot = commands.AutoShardedBot(
     intents=intents # Needs the flags enabled in order to work properly. These were discord API changes and later i will have to request message intent.
 )
 
-logging.basicConfig(level=logging.INFO)
 bot.token = token
 bot.version = "0.1"
 bot.reddit = Reddit.reddit_login(
@@ -54,6 +52,8 @@ bot.reddit = Reddit.reddit_login(
     r_user_agent = user_agent,
     r_username = username
 )
+
+bot.api = random_api_key
 
 @bot.event # Login event.
 async def on_ready():

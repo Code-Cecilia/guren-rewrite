@@ -1,10 +1,8 @@
-import datetime
 import json
 
 import discord
 import requests
 from discord.ext import commands
-
 
 class Images(commands.Cog):
     def __init__(self, bot):
@@ -51,6 +49,14 @@ class Images(commands.Cog):
         embed.set_image(url=data["message"]) 
 
         await ctx.send(embed=embed)     
+
+    @commands.command()
+    async def fox(self, ctx):
+        response = requests.get('https://randomfox.ca/floof/')
+        data = json.loads(response.text)
+        embed = discord.Embed(title="Here's a fox for you!~", color=discord.Colour.random())# , description=f"{data['image']}")
+        embed.set_image(url=f"{data['image']}")
+        await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Images(bot))

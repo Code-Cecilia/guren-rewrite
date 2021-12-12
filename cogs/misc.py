@@ -5,7 +5,6 @@ import discord
 import requests
 from discord.ext import commands
 
-
 class Misc(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -59,8 +58,22 @@ class Misc(commands.Cog):
     async def invite(self, ctx):
         # await ctx.send(f"Invite me to your server using this link: https://discord.com/oauth2/authorize?client_id={self.bot.user.id}&scope=bot&permissions=8")
         embed = discord.Embed(color=discord.Colour.random())
-        embed.add_field(name=f"", value=f"**Invite me to your server using this [link](https://discord.com/oauth2/authorize?client_id={self.bot.user.id}&scope=bot&permissions=8)**")
+        embed.add_field(name=f"Instance hosted by Yuichiro#0001", value=f"**Invite me to your server using this [link](https://discord.com/oauth2/authorize?client_id={self.bot.user.id}&scope=bot&permissions=8)**")
         await ctx.send(embed=embed)
+
+    @commands.command()
+    async def rj(self, ctx):
+        params = {"type": "any"}
+        headers = {
+            'Authorization': self.bot.api
+        }
+        url = f"https://api.pgamerx.com/v5/joke"
+        response = requests.request("GET", url, headers=headers, params=params)
+        data = json.loads(response.text)
+        try:
+            await ctx.send(data["joke"])
+        except Exception:
+            await ctx.send("Please wait a little bit before using this command again!")
 
 def setup(bot):
     bot.add_cog(Misc(bot))

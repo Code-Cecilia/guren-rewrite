@@ -53,10 +53,15 @@ class Owner(commands.Cog):
         description="Shows the information of the system where i am currently hosted."
     )
     async def hostinfo(self, ctx):
-        embed = discord.Embed(title='System Resource Usage', description='See CPU and memory usage of the system.')
+        if sys.platform.startswith('linux'):
+            platform1 = "Linux x64"
+        elif sys.platform.startswith('win32'):
+            platform1 = "Windows x64"
+        embed = discord.Embed(title='System Information')
         embed.add_field(name='CPU Usage', value=f'{psutil.cpu_percent()}%', inline=False) # Fetches the CPU usage
         embed.add_field(name='Memory Usage', value=f'{psutil.virtual_memory().percent}%', inline=False) # Fetches the memory usage specifing the percent of it.
         embed.add_field(name='Available Memory', value=f'{round(psutil.virtual_memory().available * 100 / psutil.virtual_memory().total),2} %', inline=False) # Calculates the available memory rounding it by 2
+        embed.add_field(name="Operating System in Use:", value=f'{platform1}', inline=False)
         await ctx.send(embed=embed)
 
     @commands.is_owner()

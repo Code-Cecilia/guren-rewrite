@@ -14,8 +14,9 @@ class reddit_login:
                             client_secret=self.client_secret,
                             user_agent=self.user_agent,
                             username=self.username,
-                            check_for_async=False
+                            check_for_async=False # I use this because asyncpraw sucks. lol.
                         )
+
     def get_random_title(self, subreddit, limit=10):
         subreddit = self.reddit.subreddit(subreddit)
         x = subreddit.top(limit=limit)
