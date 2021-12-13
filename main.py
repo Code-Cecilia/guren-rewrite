@@ -1,8 +1,7 @@
 import json  # Used for json databases and data storing
 import os  # Reads majority of files
 
-from pathlib import Path
-import discord  # Using Pycord
+import discord # Using Pycord
 from discord.ext import commands
 
 from utils import Reddit
@@ -22,15 +21,30 @@ intents.voice_states = True
 
 with open("./bot_files/settings/settings.json", 'r') as configFile: # Points to the settings.json file and calls it configFile in the code.
     data = json.load(configFile)
+
+    # Bot basics configuration in settings.json
+
     token = data.get("token") # Token Data
     owner = data.get("owner") # Owner Data
+    owner_name = data.get("owner_name")
+    random_api_key = data.get("random_api_key")
+ 
+    # Reddit configuration in settings.json
+
     client_id = data.get("r_client_id")
     client_secret = data.get("r_client_secret")
     redirect_uri = data.get("r_redirect_uri")
     user_agent = data.get("r_user_agent")
     username = data.get("r_username")
-    random_api_key = data.get("random_api_key")
-    owner_name = data.get("owner_name")
+ 
+    # Lavalink configuration in settings.json
+
+    m_port = data.get("m_port")
+    m_rest_uri = data.get("m_rest_uri")
+    m_password = data.get("m_password")
+    m_identifier = data.get("m_identifier")
+    m_region = data.get("m_region")
+    m_host = data.get("m_host")
 
 with open("./bot_files/configs/status.json", 'r') as statusFile: # I decided to opt for the status data in the JSON for more ease of use. 
     data = json.load(statusFile)
@@ -57,8 +71,24 @@ bot = commands.AutoShardedBot(
     intents=intents # Needs the flags enabled in order to work properly. These were discord API changes and later i will have to request message intent.
 )
 
+# Bot basics
+
 bot.token = token
 bot.version = "0.1"
+bot.api = random_api_key
+bot.owner_name = owner_name
+
+# Lavalink
+
+bot.host = m_host
+bot.port = m_port
+bot.rest_uri = m_rest_uri
+bot.password = m_password
+bot.identifier = m_identifier
+bot.region = m_region
+
+# Reddit
+
 bot.reddit = Reddit.reddit_login(
     r_client_id = client_id,
     r_client_secret = client_secret,
@@ -66,9 +96,6 @@ bot.reddit = Reddit.reddit_login(
     r_user_agent = user_agent,
     r_username = username
 )
-
-bot.api = random_api_key
-bot.owner_name = owner_name
 
 @bot.event # Login event.
 async def on_ready():

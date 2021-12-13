@@ -1,0 +1,16 @@
+{
+    "use": "us-east",
+    "usw": "us-west",
+    "usc": "us-central",
+    "uss": "us-south",
+    "eu": "europe",
+    "sg": "singapore",
+    "br": "brazil",
+    "hk": "hongkong",
+    "ru": "russia",
+    "sy": "sydney",
+    "au": "sydney",
+    "in": "india",
+    "ja": "japan",
+    "jp": "japan"
+}
