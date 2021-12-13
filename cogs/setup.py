@@ -27,6 +27,10 @@ class Setup(commands.Cog):
             json.dump(data, f, indent=4)
         await ctx.send(f'The prefix for this server has changed to {prefix}.')
 
+    @commands.command()
+    async def prefix(self, ctx):
+        await ctx.send(f"The prefix in use for this server is **{ctx.prefix}**, type **{ctx.prefix}help** to view the list of available commands.") 
+
 def setup(bot):
     bot.add_cog(Setup(bot))
     

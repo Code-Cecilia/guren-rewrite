@@ -19,7 +19,7 @@ class error(commands.Cog):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send("An argument is missing or invalid. Input the argument in order to run this command.")
         if isinstance(error, commands.CommandNotFound):
-            await ctx.send("Command not found! Type $help to check the list of commands.")
+            await ctx.send(f"Command not found! Type **{ctx.prefix}help** to check the list of commands.")
         else:
             raise error
 
