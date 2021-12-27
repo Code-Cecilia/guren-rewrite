@@ -27,7 +27,11 @@ with open("./bot_files/settings/settings.json", 'r') as configFile: # Points to 
     token = data.get("token") # Token Data
     owner = data.get("owner") # Owner Data
     owner_name = data.get("owner_name")
+    prefix = data.get("prefix")
     random_api_key = data.get("random_api_key")
+    url = data.get("url")
+    name = data.get("name")
+    game = data.get("game")
  
     # Reddit configuration in settings.json
 
@@ -46,20 +50,16 @@ with open("./bot_files/settings/settings.json", 'r') as configFile: # Points to 
     m_region = data.get("m_region")
     m_host = data.get("m_host")
 
-with open("./bot_files/configs/status.json", 'r') as statusFile: # I decided to opt for the status data in the JSON for more ease of use. 
-    data = json.load(statusFile)
-    statuses = data.get("statuses")
-
 def get_prefix(bot, message):
     with open('./bot_files/servers/prefixes/prefixes.json', 'r') as prefixFile:
         prefixes = json.load(prefixFile)
         try:
             prefix_server = prefixes.get(str(message.guild.id))
         except AttributeError:
-            return 'g$'
+            return prefix
 
         if prefix_server is None:
-            prefix_server = "g$" 
+            prefix_server = prefix 
         data = prefix_server
         return commands.when_mentioned_or(data)(bot, message)
 
@@ -77,6 +77,9 @@ bot.token = token
 bot.version = "0.1"
 bot.api = random_api_key
 bot.owner_name = owner_name
+bot.name = name
+bot.url = url
+bot.game = game
 
 # Lavalink
 
@@ -109,11 +112,9 @@ async def on_ready():
 async def presence():
     await bot.wait_until_ready()
     while not bot.is_closed():
-        name="ur mom"
-        url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-        # if you wish to change the status to one in the config please uncomment the line below and change discord.Streaming to game.
-        # game = discord.Game(statuses)
-        await bot.change_presence(status=discord.Status.dnd, activity=discord.Streaming(name=name, url=url))
+        # if you wish to change the status to one in the config please uncomment the line below and comment the other one.
+        await bot.change_presence(activity=discord.Game(game=bot.game))
+        # await bot.change_presence(activity=discord.Streaming(name=bot.name, url=bot.url))
 
 # Status that can be set:
 #
