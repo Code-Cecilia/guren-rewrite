@@ -21,12 +21,6 @@ class eventHandler(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_remove(self, guild):
-        owner = guild.owner
-        try:
-            await owner.send(f"Thanks for having me in: {guild.name}.\n"
-                             f"Your server's config files will be deleted, along with the mute files, and custom prefix.")
-        except:
-            print(f'couldn\'t send message to owner of {guild.owner}')
         if os.path.exists(f'bot_files/guilds/guild{guild.id}.json'):
             os.remove(f'./bot_config/guilds/guild{guild.id}.json')
 
